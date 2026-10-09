@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* Warna khas website SMA Negeri 2 Ungaran (bisa diganti sesuai logo asli) */
+@theme {
+  --color-navy: #12304a;
+  --color-navy-soft: #1d4468;
+  --color-gold: #e3a92b;
+  --color-gold-dark: #b9851a;
+  --color-mist: #eef3f8;
+  --color-ink: #1c2733;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
