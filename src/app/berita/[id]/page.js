@@ -2,27 +2,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BeritaCard from "@/components/BeritaCard";
-import { daftarBerita, formatTanggal, getBeritaById } from "@/data/berita";
+import { formatTanggal } from "@/data/berita";
+import { getBeritaById, getDaftarBerita } from "@/lib/beritaService";
 
-// Membuat halaman /berita/[id] untuk setiap berita saat build
-export function generateStaticParams() {
-  return daftarBerita.map((berita) => ({ id: berita.id }));
-}
+// Berita dibaca dari Supabase setiap halaman dibuka, jadi berita baru dari admin
+// langsung bisa dibuka lewat /berita/[id] tanpa perlu build ulang.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const berita = getBeritaById(id);
+  const berita = await getBeritaById(id);
   return { title: berita ? berita.judul : "Berita tidak ditemukan" };
 }
 
 export default async function DetailBeritaPage({ params }) {
   const { id } = await params;
-  const berita = getBeritaById(id);
+  const berita = await getBeritaById(id);
 
   if (!berita) {
     notFound();
   }
 
+  const daftarBerita = await getDaftarBerita();
   const lainnya = daftarBerita.filter((b) => b.id !== berita.id).slice(0, 3);
 
   return (

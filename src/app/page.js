@@ -1,10 +1,14 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import BeritaCard from "@/components/BeritaCard";
-import { daftarBerita } from "@/data/berita";
+import { getDaftarBerita } from "@/lib/beritaService";
 import { profil, sambutan, sekolah } from "@/data/sekolah";
 
-export default function HomePage() {
+// Berita dibaca dari Supabase setiap halaman dibuka, jadi perubahan dari admin langsung tampil.
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const daftarBerita = await getDaftarBerita();
   const beritaTerbaru = daftarBerita.slice(0, 3);
 
   return (
@@ -63,11 +67,15 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {beritaTerbaru.map((berita) => (
-              <BeritaCard key={berita.id} berita={berita} />
-            ))}
-          </div>
+          {beritaTerbaru.length === 0 ? (
+            <p className="mt-8 text-slate-600">Belum ada berita.</p>
+          ) : (
+            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {beritaTerbaru.map((berita) => (
+                <BeritaCard key={berita.id} berita={berita} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>

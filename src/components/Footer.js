@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { menu, sekolah } from "@/data/sekolah";
+import AdminLink from "@/components/AdminLink";
 
 export default function Footer() {
   return (
@@ -60,7 +61,9 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/20 py-4 text-center text-sm text-white/70">
-        &copy; 2026 {sekolah.nama}. Dibuat sebagai tugas Next.js.
+        &copy; 2026 {sekolah.nama}. Dibuat sebagai tugas Pemweb.
+        <span className="mx-2">|</span>
+          <AdminLink />
       </div>
     </footer>
   );
